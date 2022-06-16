@@ -1,17 +1,17 @@
-import 'package:task_manager/list.dart';
+import 'package:task_manager/form.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(MaterialApp(
     title: 'Navegação Básica',
     theme: ThemeData(primarySwatch: Colors.blue),
-    home: const PrimeiraRota(),
+    home: const MyHome(),
     debugShowCheckedModeBanner: false,
   ));
 }
 
-class PrimeiraRota extends StatelessWidget {
-  const PrimeiraRota({Key? key}) : super(key: key);
+class MyHome extends StatelessWidget {
+  const MyHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class PrimeiraRota extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            chamarTela(context, const SegundaRota());
+            chamarTela(context, MyTask());
           },
           child: const Text('Add'),
         ),
