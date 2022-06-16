@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(MaterialApp(
-    title: 'Navegação Básica',
-    theme: ThemeData(primarySwatch: Colors.blue),
-    home: const MyHome(),
+    title: 'Navigation',
+    theme: ThemeData(primarySwatch: Colors.red),
+    home: const MyHomePage(),
     debugShowCheckedModeBanner: false,
   ));
 }
 
-class MyHome extends StatelessWidget {
-  const MyHome({Key? key}) : super(key: key);
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Task')),
+      appBar: AppBar(title: const Text('Task List')),
       body: Center(
         child: ElevatedButton(
           onPressed: () {

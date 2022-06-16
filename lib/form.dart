@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'task.dart';
+import 'taskController.dart';
 
 void main() => runApp(MaterialApp(
-    title: 'Navegação Básica',
-    theme: ThemeData(primarySwatch: Colors.blue),
+    title: 'Navigation',
+    theme: ThemeData(primarySwatch: Colors.red),
     home: MyTask(),
     debugShowCheckedModeBanner: false,
 ));
@@ -19,7 +19,7 @@ class MyTask extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Cadastro de tarefa'),
+          title: const Text('Task Registration'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -47,14 +47,16 @@ class MyTask extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: ElevatedButton(
-                  child: Text('Salvar'),
+                  child: Text('Save'),
                 onPressed: () {
                   final String title = _controllerTitle.text;
                   final String description = _controllerDescription.text;
                   final String calendar = _controllerCalendar.text;
 
-                  final Task newTask = Task(title, description, calendar);
-                  print(newTask);
+                  // final Task newTask = Task(title, description, calendar);
+                  // print(newTask);
+
+                  print(TaskController.persist(title, description, calendar));
                 },
                 ),
               ),
