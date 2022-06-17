@@ -17,19 +17,17 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Task List')),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            chamarTela(context, MyTask());
-          },
-          child: const Text('Add'),
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          callScreen(context, MyTask());
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
 }
 
-chamarTela(BuildContext context, StatelessWidget widget) {
+callScreen(BuildContext context, StatelessWidget widget) {
   Navigator.push(
     context,
     MaterialPageRoute(builder: (context) => widget),

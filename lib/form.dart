@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/main.dart';
 import 'taskController.dart';
 
 void main() => runApp(MaterialApp(
@@ -57,6 +58,16 @@ class MyTask extends StatelessWidget {
                   // print(newTask);
 
                   print(TaskController.persist(title, description, calendar));
+
+                  showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+                    title: const Text ('Success'),
+                    content: const Text('Saved successfully'),
+                    actions: <Widget>[
+                      TextButton(onPressed: () => {callScreen(context, MyHomePage())}, 
+                        child: const Text('Ok'),
+                      )
+                    ]
+                  ));
                 },
                 ),
               ),
