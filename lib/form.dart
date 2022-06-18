@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/main.dart';
-import 'taskController.dart';
+import 'task_controller.dart';
 
 void main() => runApp(MaterialApp(
     title: 'Navigation',
@@ -28,42 +28,45 @@ class MyTask extends StatelessWidget {
             children: <Widget>[
               TextField(
                 controller: _controllerTitle,
-                decoration: InputDecoration(labelText: 'Title'),
+                decoration: const InputDecoration(labelText: 'Title'),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: TextField( 
                   controller: _controllerDescription,
-                  decoration: InputDecoration(labelText: 'Description'),
+                  decoration: const InputDecoration(labelText: 'Description'),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: TextField(
                   controller: _controllerCalendar,
-                  decoration: InputDecoration(labelText: 'Calendar'),
-                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(labelText: 'Calendar'),
+                  // keyboardType: TextInputType.number,
+                  onTap: () async {
+                    var date = await showDatePicker(context: context, initialDate: DateTime.now(),
+                      firstDate: DateTime(2022), lastDate: DateTime(2050)
+                    );
+                    _controllerCalendar.text = date.toString();
+                  }
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: ElevatedButton(
-                  child: Text('Save'),
+                  child: const Text('Save'),
                 onPressed: () {
                   final String title = _controllerTitle.text;
                   final String description = _controllerDescription.text;
                   final String calendar = _controllerCalendar.text;
-
-                  // final Task newTask = Task(title, description, calendar);
-                  // print(newTask);
-
+                  
                   print(TaskController.persist(title, description, calendar));
 
                   showDialog(context: context, builder: (BuildContext context) => AlertDialog(
                     title: const Text ('Success'),
                     content: const Text('Saved successfully'),
                     actions: <Widget>[
-                      TextButton(onPressed: () => {callScreen(context, MyHomePage())}, 
+                      TextButton(onPressed: () => {callScreen(context, const MyHomePage())}, 
                         child: const Text('Ok'),
                       )
                     ]
