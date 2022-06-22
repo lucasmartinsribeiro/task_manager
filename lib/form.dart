@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/main.dart';
 import 'task_controller.dart';
+import 'task.dart';
 
 void main() => runApp(MaterialApp(
     title: 'Navigation',
@@ -61,6 +62,10 @@ class MyTask extends StatelessWidget {
                   final String calendar = _controllerCalendar.text;
                   
                   print(TaskController.persist(title, description, calendar));
+
+                  if ((title != "") && (description != "") && (calendar != "")) {
+                      TaskController.list.add(Task(title, description, calendar));
+                  }
 
                   showDialog(context: context, builder: (BuildContext context) => AlertDialog(
                     title: const Text ('Success'),

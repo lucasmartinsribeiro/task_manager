@@ -7,4 +7,14 @@ class TaskController {
     //At this point would be the code for persistence in the database
     return t;
   }
+
+  static List<Task> list = [];
+
+  static include(Task t) {
+    list.add(t);
+  }
+
+  static List<Task> tasks() {
+    return list;
+  }
 }
