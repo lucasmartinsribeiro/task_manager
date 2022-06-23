@@ -6,16 +6,24 @@ import 'task.dart';
 void main() => runApp(MaterialApp(
     title: 'Navigation',
     theme: ThemeData(primarySwatch: Colors.red),
-    home: MyTask(),
+    home: const MyTask(),
     debugShowCheckedModeBanner: false,
 ));
 
-class MyTask extends StatelessWidget {
-  final TextEditingController _controllerTitle = TextEditingController();
-  final TextEditingController _controllerDescription = TextEditingController();
-  final TextEditingController _controllerCalendar = TextEditingController();
+class MyTask extends StatefulWidget {
 
-  MyTask({Key? key}) : super(key: key);
+  const MyTask({Key? key}) : super(key: key);
+
+  @override
+  State<MyTask> createState() => _MyTaskState();
+}
+
+class _MyTaskState extends State<MyTask> {
+  final TextEditingController _controllerTitle = TextEditingController();
+
+  final TextEditingController _controllerDescription = TextEditingController();
+
+  final TextEditingController _controllerCalendar = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +69,7 @@ class MyTask extends StatelessWidget {
                   final String description = _controllerDescription.text;
                   final String calendar = _controllerCalendar.text;
                   
-                  print(TaskController.persist(title, description, calendar));
+                  // print(TaskController.persist(title, description, calendar));
 
                   if ((title != "") && (description != "") && (calendar != "")) {
                       TaskController.list.add(Task(title, description, calendar));
@@ -92,7 +100,7 @@ ElevatedButton buttonBack(BuildContext context) {
     onPressed: () {
       Navigator.pop(
         context,
-        MaterialPageRoute(builder: (context) => MyTask()),
+        MaterialPageRoute(builder: (context) => const MyTask()),
       );
     }
   );
