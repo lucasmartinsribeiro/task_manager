@@ -1,5 +1,6 @@
 import 'package:task_manager/form.dart';
 import 'package:flutter/material.dart';
+import 'list.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -17,6 +18,16 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Task List')),
+      body: Container(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: const <Widget>[
+            ListTile(
+              title: const Text('Lista'),
+            )
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           callScreen(context, MyTask());

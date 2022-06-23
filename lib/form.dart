@@ -88,11 +88,12 @@ class MyTask extends StatelessWidget {
 
 ElevatedButton buttonBack(BuildContext context) {
   return ElevatedButton(
-      child: const Text("Back"),
-      onPressed: () {
-        Navigator.pop(
-          context,
-          MaterialPageRoute(builder: (context) => MyTask()),
-        );
-      });
+    child: const Text("Back"),
+    onPressed: () {
+      Navigator.pop(
+        context,
+        MaterialPageRoute(builder: (context) => MyTask()),
+      );
+    }
+  );
 }
