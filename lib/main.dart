@@ -1,6 +1,7 @@
 import 'package:task_manager/form.dart';
 import 'package:flutter/material.dart';
-import 'task_controller.dart';
+import 'package:task_manager/list.dart';
+import 'package:task_manager/task.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -19,25 +20,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  List <Task> tasks = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Task List')),
       body: Container(
         padding: const EdgeInsets.all(50.0),
-        child: ListView.builder(
-          itemBuilder: (BuildContext, index) {
-            return Card(
-              child: ListTile(
-                title: Text(TaskController.list[index].title),
-                subtitle: Text(TaskController.list[index].description),
-                // calendar: Text(TaskController.list[index].calendar),
-              ),
-            );
-          },
-          itemCount: TaskController.list.length,
-          shrinkWrap: true,
+        child: ListView(
           padding: const EdgeInsets.all(10),
+          shrinkWrap: true,
+          children: [
+            for(Task task in tasks)
+              MyList(
+                task: task
+              ),
+          ],
         )
       ),
       floatingActionButton: FloatingActionButton(

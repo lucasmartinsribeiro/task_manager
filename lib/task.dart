@@ -3,11 +3,17 @@ class Task {
   final String description;
   final String calendar;
 
-  Task(
-    this.title,
-    this.description,
-    this.calendar,
-  );
+  // Task(
+  //   this.title,
+  //   this.description,
+  //   this.calendar,
+  // );
+
+   Task({
+    required this.title,
+    required this.description,
+    required this.calendar,
+  });
 
   @override
   String toString() {

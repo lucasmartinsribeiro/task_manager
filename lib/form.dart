@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/main.dart';
 import 'task_controller.dart';
 import 'task.dart';
+import 'main.dart';
 
 void main() => runApp(MaterialApp(
     title: 'Navigation',
@@ -24,6 +25,8 @@ class _MyTaskState extends State<MyTask> {
   final TextEditingController _controllerDescription = TextEditingController();
 
   final TextEditingController _controllerCalendar = TextEditingController();
+
+  List <Task> tasks = [];
 
   @override
   Widget build(BuildContext context) {
@@ -65,15 +68,28 @@ class _MyTaskState extends State<MyTask> {
                 child: ElevatedButton(
                   child: const Text('Save'),
                 onPressed: () {
-                  final String title = _controllerTitle.text;
-                  final String description = _controllerDescription.text;
-                  final String calendar = _controllerCalendar.text;
+                  String title = _controllerTitle.text;
+                  String description = _controllerDescription.text;
+                  String calendar = _controllerCalendar.text;
                   
                   // print(TaskController.persist(title, description, calendar));
 
-                  if ((title != "") && (description != "") && (calendar != "")) {
-                      TaskController.list.add(Task(title, description, calendar));
-                  }
+                  // if ((title != "") && (description != "") && (calendar != "")) {
+                  //     TaskController.list.add(Task(title, description, calendar));
+                  // }
+
+                  
+
+                  setState(() {
+                    Task newTask = Task(
+                      title: title,
+                      description: description,
+                      calendar: calendar,
+                    );
+                    tasks.add(newTask);
+                  });
+
+                  // TaskController.clear();
 
                   showDialog(context: context, builder: (BuildContext context) => AlertDialog(
                     title: const Text ('Success'),
