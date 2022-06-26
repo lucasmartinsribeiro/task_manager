@@ -21,8 +21,6 @@ class MyTask extends StatefulWidget {
 class _MyTaskState extends State<MyTask> {
   final TextEditingController _controllerTitle = TextEditingController();
 
-  final TextEditingController _controllerDescription = TextEditingController();
-
   final TextEditingController _controllerCalendar = TextEditingController();
 
   @override
@@ -30,6 +28,7 @@ class _MyTaskState extends State<MyTask> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Task Registration'),
+           centerTitle: true,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -41,17 +40,9 @@ class _MyTaskState extends State<MyTask> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
-                child: TextField( 
-                  controller: _controllerDescription,
-                  decoration: const InputDecoration(labelText: 'Description'),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
                 child: TextField(
                   controller: _controllerCalendar,
                   decoration: const InputDecoration(labelText: 'Calendar'),
-                  // keyboardType: TextInputType.number,
                   onTap: () async {
                     var date = await showDatePicker(context: context, initialDate: DateTime.now(),
                       firstDate: DateTime(2022), lastDate: DateTime(2050)
@@ -66,13 +57,12 @@ class _MyTaskState extends State<MyTask> {
                   child: const Text('Save'),
                 onPressed: () {
                   final String title = _controllerTitle.text;
-                  final String description = _controllerDescription.text;
                   final String calendar = _controllerCalendar.text;
                   
-                  // print(TaskController.persist(title, description, calendar));
+                  // print(TaskController.persist(title, calendar));
 
-                  if ((title != "") && (description != "") && (calendar != "")) {
-                      TaskController.list.add(Task(title, description, calendar));
+                  if ((title != "") && (calendar != "")) {
+                      TaskController.list.add(Task(title, calendar));
                   }
 
                   showDialog(context: context, builder: (BuildContext context) => AlertDialog(

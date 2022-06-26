@@ -1,6 +1,7 @@
 import 'package:task_manager/form.dart';
 import 'package:flutter/material.dart';
 import 'task_controller.dart';
+import 'form.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -19,19 +20,30 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Task List')),
+      appBar: AppBar(
+        title: const Text('Task List'),
+        centerTitle: true,
+      ),
       body: Container(
         padding: const EdgeInsets.all(50.0),
         child: ListView.builder(
           itemBuilder: (BuildContext, index) {
             return Card(
+              color: Colors.grey[200], 
               child: ListTile(
                 title: Text(TaskController.list[index].title),
-                subtitle: Text(TaskController.list[index].description),
-                // calendar: Text(TaskController.list[index].calendar),
+                subtitle: Text(TaskController.list[index].calendar),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
+                    IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
+                  ],
+                ),
               ),
             );
           },
