@@ -4,10 +4,9 @@ import 'package:intl/intl.dart';
 import 'task_controller.dart';
 import 'task.dart';
 
-void main() => runApp(MaterialApp(
+void main() => runApp(const MaterialApp(
       title: 'Navigation',
-      theme: ThemeData(primarySwatch: Colors.teal),
-      home: const MyTask(),
+      home: MyTask(),
       debugShowCheckedModeBanner: false,
     ));
 
@@ -29,7 +28,7 @@ class _MyTaskState extends State<MyTask> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nova Tarefa'),
+        title: const Text('Criar Nova Tarefa'),
         centerTitle: true,
       ),
       body: Padding(
@@ -67,38 +66,47 @@ class _MyTaskState extends State<MyTask> {
 
                   if ((title != "") && (calendar != "")) {
                     TaskController.list.add(Task(title, calendar));
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                                title: const Text('Salvo'),
+                                content: const Text(
+                                    'A tarefa foi salva com sucesso!'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () => {
+                                      callScreen(context, const MyHomePage())
+                                    },
+                                    child: const Text('Ok'),
+                                  )
+                                ]));
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                                title: const Text('Campos Vazios'),
+                                content: const Text(
+                                    'Por favor, preencha todos os campos!'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () =>
+                                        {callScreen(context, const MyTask())},
+                                    child: const Text('Ok'),
+                                  )
+                                ]));
                   }
-
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Salvo'),
-                              content:
-                                  const Text('A tarefa foi salva com sucesso!'),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () =>
-                                      {callScreen(context, const MyHomePage())},
-                                  child: const Text('Ok'),
-                                )
-                              ]));
                 },
               ),
             ),
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          callScreen(context, const MyHomePage());
+        },
+        child: const Icon(Icons.home),
+      ),
     );
   }
-}
-
-ElevatedButton buttonBack(BuildContext context) {
-  return ElevatedButton(
-      child: const Text("Back"),
-      onPressed: () {
-        Navigator.pop(
-          context,
-          MaterialPageRoute(builder: (context) => const MyTask()),
-        );
-      });
 }

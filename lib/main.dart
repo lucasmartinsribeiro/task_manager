@@ -6,11 +6,11 @@ import 'form.dart';
 
 void main() {
   runApp(MaterialApp(
-    localizationsDelegates: [
+    localizationsDelegates: const [
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate
     ],
-    supportedLocales: [const Locale('pt', 'BR')],
+    supportedLocales: const [Locale('pt', 'BR')],
     title: 'Navigation',
     theme: ThemeData(primarySwatch: Colors.teal),
     home: const MyHomePage(),
