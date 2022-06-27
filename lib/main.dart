@@ -69,8 +69,9 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 callScreen(BuildContext context, StatefulWidget widget) {
-  Navigator.push(
+  Navigator.pushAndRemoveUntil(
     context,
     MaterialPageRoute(builder: (context) => widget),
+    (Route<dynamic> route) => false,
   );
 }
