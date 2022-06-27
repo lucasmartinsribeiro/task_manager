@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/main.dart';
+import 'package:intl/intl.dart';
 import 'task_controller.dart';
 import 'task.dart';
 
 void main() => runApp(MaterialApp(
-    title: 'Navigation',
-    theme: ThemeData(primarySwatch: Colors.red),
-    home: const MyTask(),
-    debugShowCheckedModeBanner: false,
-));
+      title: 'Navigation',
+      theme: ThemeData(primarySwatch: Colors.teal),
+      home: const MyTask(),
+      debugShowCheckedModeBanner: false,
+    ));
 
 class MyTask extends StatefulWidget {
-
   const MyTask({Key? key}) : super(key: key);
 
   @override
@@ -23,75 +23,82 @@ class _MyTaskState extends State<MyTask> {
 
   final TextEditingController _controllerCalendar = TextEditingController();
 
+  DateTime selectedDate = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Task Registration'),
-           centerTitle: true,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: <Widget>[
-              TextField(
-                controller: _controllerTitle,
-                decoration: const InputDecoration(labelText: 'Title'),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: TextField(
+      appBar: AppBar(
+        title: const Text('Nova Tarefa'),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            TextField(
+              controller: _controllerTitle,
+              decoration: const InputDecoration(labelText: 'Título'),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: TextField(
                   controller: _controllerCalendar,
-                  decoration: const InputDecoration(labelText: 'Calendar'),
+                  decoration: const InputDecoration(labelText: 'Data Limite'),
                   onTap: () async {
-                    var date = await showDatePicker(context: context, initialDate: DateTime.now(),
-                      firstDate: DateTime(2022), lastDate: DateTime(2050)
-                    );
-                    _controllerCalendar.text = date.toString();
-                  }
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: ElevatedButton(
-                  child: const Text('Save'),
+                    DateTime? date = await showDatePicker(
+                        context: context,
+                        initialDate: selectedDate,
+                        firstDate: DateTime(2022),
+                        lastDate: DateTime(2050));
+                    _controllerCalendar.text =
+                        DateFormat('dd/MM/yyyy').format(date!);
+                  }),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: ElevatedButton(
+                child: const Text('Salvar'),
                 onPressed: () {
                   final String title = _controllerTitle.text;
                   final String calendar = _controllerCalendar.text;
-                  
+
                   // print(TaskController.persist(title, calendar));
 
                   if ((title != "") && (calendar != "")) {
-                      TaskController.list.add(Task(title, calendar));
+                    TaskController.list.add(Task(title, calendar));
                   }
 
-                  showDialog(context: context, builder: (BuildContext context) => AlertDialog(
-                    title: const Text ('Success'),
-                    content: const Text('Saved successfully'),
-                    actions: <Widget>[
-                      TextButton(onPressed: () => {callScreen(context, const MyHomePage())}, 
-                        child: const Text('Ok'),
-                      )
-                    ]
-                  ));
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Salvo'),
+                              content:
+                                  const Text('A tarefa foi salva com sucesso!'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () =>
+                                      {callScreen(context, const MyHomePage())},
+                                  child: const Text('Ok'),
+                                )
+                              ]));
                 },
-                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
     );
   }
 }
 
 ElevatedButton buttonBack(BuildContext context) {
   return ElevatedButton(
-    child: const Text("Back"),
-    onPressed: () {
-      Navigator.pop(
-        context,
-        MaterialPageRoute(builder: (context) => const MyTask()),
-      );
-    }
-  );
+      child: const Text("Back"),
+      onPressed: () {
+        Navigator.pop(
+          context,
+          MaterialPageRoute(builder: (context) => const MyTask()),
+        );
+      });
 }
