@@ -4,8 +4,8 @@ import 'firebase_options.dart';
 import 'package:task_manager/form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'task_controller.dart';
 import 'form.dart';
+import 'database.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +35,33 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Database db = Database();
+  List docs = [];
+
+  initialise() {
+    db.initiliase();
+    db.listar().then((value) => {
+          setState(() {
+            docs = value;
+          })
+        });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initialise();
+  }
+
+  void _openForm() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const MyTask())).then((_) {
+      setState(() {
+        initialise();
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,8 +76,24 @@ class _MyHomePageState extends State<MyHomePage> {
               return Card(
                 color: Colors.teal.shade50,
                 child: ListTile(
-                  title: Text(TaskController.list[index].title),
-                  subtitle: Text(TaskController.list[index].calendar),
+                  // onTap: () {
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) =>
+                  //         View(country: docs[index], db: db)))
+                  //         .then((value) => {
+                  //           if (value != null) {initialise()}
+                  //           });
+                  // },
+                  // onLongPress: () {
+                  //   db.delete(docs[index]['id']);
+                  //   setState(() {
+                  //     initialise();
+                  //   });
+                  // },
+                  title: Text(docs[index]['title']),
+                  subtitle: Text(docs[index]['calendar']),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -63,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               );
             },
-            itemCount: TaskController.list.length,
+            itemCount: docs.length,
             shrinkWrap: true,
             padding: const EdgeInsets.all(10),
           )),
@@ -71,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {
           callScreen(context, const MyTask());
         },
+        // onPressed: _openForm,
         child: const Icon(Icons.add),
       ),
     );

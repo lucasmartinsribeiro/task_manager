@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/main.dart';
 import 'package:intl/intl.dart';
-import 'task_controller.dart';
 import 'task.dart';
+import 'database.dart';
 
 void main() => runApp(const MaterialApp(
       title: 'Navigation',
@@ -62,10 +62,11 @@ class _MyTaskState extends State<MyTask> {
                   final String title = _controllerTitle.text;
                   final String calendar = _controllerCalendar.text;
 
-                  // print(TaskController.persist(title, calendar));
-
                   if ((title != "") && (calendar != "")) {
-                    TaskController.list.add(Task(title, calendar));
+                    Database db = Database();
+                    db.include(Task(title, calendar));
+                    Navigator.pop(context);
+
                     showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
