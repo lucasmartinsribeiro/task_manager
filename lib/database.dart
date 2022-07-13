@@ -19,7 +19,7 @@ class Database {
     firestore.collection("tasks").doc(id).delete();
   }
 
-  Future<List> listar() async {
+  Future<List> list() async {
     QuerySnapshot querySnapshot;
     List docs = [];
     try {

@@ -40,11 +40,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   initialise() {
     db.initiliase();
-    db.listar().then((value) => {
-          setState(() {
-            docs = value;
-          })
-        });
+    db.list().then((value) => {
+      setState(() {
+        docs = value;
+        })
+      });
   }
 
   @override
@@ -76,22 +76,6 @@ class _MyHomePageState extends State<MyHomePage> {
               return Card(
                 color: Colors.teal.shade50,
                 child: ListTile(
-                  // onTap: () {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //       builder: (context) =>
-                  //         View(country: docs[index], db: db)))
-                  //         .then((value) => {
-                  //           if (value != null) {initialise()}
-                  //           });
-                  // },
-                  // onLongPress: () {
-                  //   db.delete(docs[index]['id']);
-                  //   setState(() {
-                  //     initialise();
-                  //   });
-                  // },
                   title: Text(docs[index]['title']),
                   subtitle: Text(docs[index]['calendar']),
                   trailing: Row(
@@ -100,7 +84,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       IconButton(
                           onPressed: () {}, icon: const Icon(Icons.edit)),
                       IconButton(
-                          onPressed: () {}, icon: const Icon(Icons.delete)),
+                          onPressed: () {
+                              db.delete(docs[index]['id']);
+                              setState(() {
+                                initialise();
+                              });
+                          }, icon: const Icon(Icons.delete)),
                     ],
                   ),
                 ),
