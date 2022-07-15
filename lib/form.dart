@@ -4,14 +4,16 @@ import 'package:intl/intl.dart';
 import 'task.dart';
 import 'database.dart';
 
-void main() => runApp(const MaterialApp(
-      title: 'Navigation',
-      home: MyTask(),
-      debugShowCheckedModeBanner: false,
-    ));
+// void main() => runApp(const MaterialApp(
+//   title: 'Navigation',
+//   // home: MyTask(),
+//   //debugShowCheckedModeBanner: false,
+// ));
 
 class MyTask extends StatefulWidget {
-  const MyTask({Key? key}) : super(key: key);
+  MyTask({Key? key, this.taskSelected, this.db}) : super(key: key);
+  Map? taskSelected;
+  Database? db;
 
   @override
   State<MyTask> createState() => _MyTaskState();
@@ -22,7 +24,20 @@ class _MyTaskState extends State<MyTask> {
 
   final TextEditingController _controllerCalendar = TextEditingController();
 
+  String? id;
+
   DateTime selectedDate = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    print(widget.taskSelected!['id'].toString());
+    if (widget.taskSelected!['id'].toString() != null) {
+      id = widget.taskSelected!['id'].toString();
+      _controllerTitle.text = widget.taskSelected!['title'].toString();
+      _controllerCalendar.text = widget.taskSelected!['calendar'].toString();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,37 +79,45 @@ class _MyTaskState extends State<MyTask> {
 
                   if ((title != "") && (calendar != "")) {
                     Database db = Database();
-                    db.include(Task(title, calendar));
+                    if (widget.taskSelected!['id'] == null) {
+                      db.include(Task(title, calendar));
+                    } else {
+                      db.edit(id!, Task(title, calendar));
+                    }
                     Navigator.pop(context);
 
                     showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                                title: const Text('Salvo'),
-                                content: const Text(
-                                    'A tarefa foi salva com sucesso!'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () => {
-                                      callScreen(context, const MyHomePage())
-                                    },
-                                    child: const Text('Ok'),
-                                  )
-                                ]));
+                          title: const Text('Salvo'),
+                          content: const Text(
+                            'A tarefa foi salva com sucesso!'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => {
+                                  callScreen(context, const MyHomePage())
+                                },
+                                child: const Text('Ok'),
+                              )
+                            ]
+                        )
+                    );
                   } else {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                                title: const Text('Campos Vazios'),
-                                content: const Text(
-                                    'Por favor, preencha todos os campos!'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () =>
-                                        {callScreen(context, const MyTask())},
-                                    child: const Text('Ok'),
-                                  )
-                                ]));
+                          title: const Text('Campos Vazios'),
+                          content: const Text(
+                            'Por favor, preencha todos os campos!'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () =>
+                                {callScreen(context, MyTask())},
+                                child: const Text('Ok'),
+                              )
+                            ]
+                        )
+                    );
                   }
                 },
               ),

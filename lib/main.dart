@@ -53,13 +53,21 @@ class _MyHomePageState extends State<MyHomePage> {
     initialise();
   }
 
-  void _openForm() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const MyTask())).then((_) {
-      setState(() {
-        initialise();
-      });
-    });
+  void _openForm(Map taskSelec) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyTask(
+            taskSelected: taskSelec,
+            )
+          )
+        ).then((_) {
+          setState(() {
+            initialise();
+          }
+        );
+      }
+    );
   }
 
   @override
@@ -82,14 +90,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                          onPressed: () {}, icon: const Icon(Icons.edit)),
+                        onPressed: () {
+                          print("docs[index]---> $docs[index]['id']");
+                          Map<String, String> task() => {
+                            "id": docs[index]['id'],
+                            "title": docs[index]['title'],
+                            "calendar": docs[index]['calendar']
+                          };
+                          _openForm(task());
+                        }, icon: const Icon(Icons.edit)),
                       IconButton(
-                          onPressed: () {
-                              db.delete(docs[index]['id']);
-                              setState(() {
-                                initialise();
-                              });
-                          }, icon: const Icon(Icons.delete)),
+                        onPressed: () {
+                          db.delete(docs[index]['id']);
+                            setState(() {
+                              initialise();
+                            });
+                        }, icon: const Icon(Icons.delete)),
                     ],
                   ),
                 ),
@@ -101,7 +117,9 @@ class _MyHomePageState extends State<MyHomePage> {
           )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          callScreen(context, const MyTask());
+          // callScreen(context, MyTask());
+          Map<String, String> mapNulo() => {"title": "", "calendar": ""};
+          _openForm(mapNulo());
         },
         // onPressed: _openForm,
         child: const Icon(Icons.add),

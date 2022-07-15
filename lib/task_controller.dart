@@ -15,16 +15,6 @@ class Database {
             print('DocumentSnapshot added with ID: ${doc.id}'));
   }
 
-  Future<void> edit(String id, Task t) async {
-    print("id -----> $id");
-    final task = <String, dynamic>{"title": t.title, "calendar": t.calendar};
-    try {
-      await firestore.collection("tasks").doc(id).update(task);
-    } catch (e) {
-      print(e);
-    }
-  }
-
   delete(String id) {
     firestore.collection("tasks").doc(id).delete();
   }
@@ -37,7 +27,7 @@ class Database {
           await firestore.collection('tasks').orderBy("title").get();
       if (querySnapshot.docs.isNotEmpty) {
         for (var doc in querySnapshot.docs.toList()) {
-          Map m = {"id": doc.id, "title": doc['title'], "calendar": doc["calendar"]};
+          Map m = {"id": doc.id, "title": doc['tile'], "calendar": doc["calendar"]};
           docs.add(m);
         }
       }
